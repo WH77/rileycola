@@ -170,7 +170,7 @@
       fizz = 0;
 
       audio.volume = 1;
-      audio.fastSeek(0);
+      audio.currentTime = 0;
       audio.play();
 
       foam.innerHTML = `
@@ -260,7 +260,7 @@
 
       if (intensity > 2) {
         audio.volume = intensity / 20;
-        audio.fastSeek(0);
+        audio.currentTime = 0;
         audio.play();
       }
     }
