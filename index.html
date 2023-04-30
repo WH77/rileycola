@@ -116,7 +116,7 @@
     }
 
     .fade-in-out {
-      animation: fade-in-out 6s ease-in-out forwards;
+      animation: fade-in-out 16s ease-out forwards;
     }
 
     @keyframes fade-in-out {
@@ -124,7 +124,7 @@
         opacity: 0;
       }
 
-      70% {
+      30% {
         opacity: 1;
       }
 
@@ -152,6 +152,7 @@
     </div>
   </div>
 
+  <audio id="audio" src="./sounds/fizzlehiss.mp3"></audio>
   <style id="shake"></style>
   <style id="sparkle"></style>
   <script>
@@ -161,11 +162,16 @@
     const foam = document.querySelector('.foam');
     const shake = document.querySelector('#shake');
     const sparkle = document.querySelector('#sparkle');
+    const audio = document.querySelector('audio');
     var fizz = 0;
 
     function openCan() {
       console.log("openCan");
       fizz = 0;
+
+      audio.volume = 1;
+      audio.fastSeek(0);
+      audio.play();
 
       foam.innerHTML = `
       <div class="sparkle"></div>
@@ -213,7 +219,7 @@
           transform: translate(-50%, -50%);
           width: 0.5vh;
           aspect-ratio: 1;
-          animation: sparkle 6s ease-out forwards;
+          animation: sparkle 12s ease-out forwards;
           background: ${gradients};
         }
 
@@ -230,7 +236,7 @@
             width: 0.5vh;
             opacity: 0.5;
           }
-          25% { 
+          15% { 
             width: 100%;
             opacity: 1;
           }
@@ -250,6 +256,12 @@
       // short pulses of vibration at low intensity feel wrong
       if (intensity > 4) {
         navigator.vibrate(intensity * 10);
+      }
+
+      if (intensity > 2) {
+        audio.volume = intensity / 20;
+        audio.fastSeek(0);
+        audio.play();
       }
     }
 
@@ -360,17 +372,17 @@
     });
 
     addEventListener("devicemotion", (event) => {
-      fizz += Math.abs(event.acceleration.x) * 1.25;
-      fizz += Math.abs(event.acceleration.y) * 1.25;
-      fizz += Math.abs(event.acceleration.z) * 1.25;
+      fizz += Math.abs(event.acceleration.x) * 2;
+      fizz += Math.abs(event.acceleration.y) * 2;
+      fizz += Math.abs(event.acceleration.z) * 2;
     });
 
     setInterval(() => {
-      intensity = Math.min(fizz / 200, 20);
+      intensity = Math.min(fizz / 1000, 10);
 
       if (fizz < 100) {
         applyShake(0);
-      } else if (fizz >= 20000) {
+      } else if (fizz >= 15000) {
         openCan();
       } else {
         applyShake(intensity)
