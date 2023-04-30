@@ -178,9 +178,9 @@
       return (Math.random() - 0.5) * max;
     }
 
+    // based on https://alvaromontoro.com/blog/68002/creating-a-firework-effect-with-css
     function generateSparkleAnimation() {
-      const particles = 360;
-
+      const particles = 120;
       const gradients = [...Array(particles).keys()]
         .map(i => {
           const radians = i/particles * 8 * Math.PI;
@@ -205,7 +205,7 @@
         .join(",");
 
       return `
-        .sparkle {
+        .sparkle, .sparkle::before, .sparkle::after {
           content: "";
           position: absolute;
           top: 50%;
@@ -215,7 +215,14 @@
           aspect-ratio: 1;
           animation: sparkle 6s ease-out forwards;
           background: ${gradients};
+        }
 
+        .sparkle::before {
+          transform: translate(-50%, -50%) rotate(30deg) scale(1.1) !important;
+        }
+
+        .sparkle::after {
+          transform: translate(-50%, -50%) rotate(144deg) scale(1.5) !important;
         }
 
         @keyframes sparkle {
