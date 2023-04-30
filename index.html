@@ -246,8 +246,11 @@
     function applyShake(intensity) {
       generateShakeAnimation(intensity);
 
-      // 100ms at 10 intensity
-      navigator.vibrate(intensity * 10);
+      // should match period 10 intensity
+      // short pulses of vibration at low intensity feel wrong
+      if (intensity > 4) {
+        navigator.vibrate(intensity * 10);
+      }
     }
 
     // https://stackoverflow.com/a/36964181
