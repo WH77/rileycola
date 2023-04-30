@@ -102,7 +102,7 @@
       position: absolute;
       width: 50%;
       height: 75%;
-      transform: translate(50%, -140%);
+      transform: translate(50%, -150%);
     }
 
     .foam>img {
@@ -114,7 +114,7 @@
     }
 
     .fade-in-out {
-      animation: fade-in-out ease 6s forwards;
+      animation: fade-in-out 6s ease-in-out forwards;
     }
 
     @keyframes fade-in-out {
@@ -197,7 +197,7 @@
             y += (radius - y) + jitter(36);
           }
 
-          const color = "#3c3024";
+          const color = "#36220F";
           return `radial-gradient(circle at ${x}% ${y}%, ${color} 4px, #0000 0) `;
         })
         .join(",");
@@ -211,7 +211,7 @@
           transform: translate(-50%, -50%);
           width: 0.5vh;
           aspect-ratio: 1;
-          animation: sparkle ease-out 6s forwards;
+          animation: sparkle 6s ease-out forwards;
           background: ${gradients};
 
         }
@@ -219,14 +219,14 @@
         @keyframes sparkle {
           0% { 
             width: 0.5vh;
-            opacity: 0;
+            opacity: 0.5;
           }
-          60% { 
-            width: 35vh;
+          25% { 
+            width: 100%;
             opacity: 1;
           }
           100% { 
-            width: 35vh; 
+            width: 100%; 
             opacity: 0; 
           }
         }
