@@ -93,6 +93,7 @@
     .shake {
       animation-name: shake;
       animation-duration: 1s;
+      animation-timing-function: ease;
       transform-origin: 50% 50%;
       animation-iteration-count: infinite;
     }
@@ -102,24 +103,39 @@
       width: 50%;
       height: 75%;
       transform: translate(50%, -150%);
-      z-index: 1;
     }
 
-    .foam > img {
+    .foam>img {
       max-width: 100%;
       max-height: 100%;
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
+
+    .fade-in-out {
+      animation: fade-in-out ease 6s forwards;
+    }
+
+    @keyframes fade-in-out {
+      0% {
+        opacity: 0;
+      }
+
+      40% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="foam">
-      <img src="./images/smashkirby.webp" />
-    </div>
+    <div class="foam"></div>
 
     <div class="wrapper rotation">
       <div class="wrapper shake">
@@ -134,20 +150,57 @@
   </div>
 
   <style id="shake"></style>
+  <style id="sparkle"></style>
   <script>
     console.log("hi riley");
     const can = document.querySelector('.can');
     const tab = document.querySelector('.tab');
+    const foam = document.querySelector('.foam');
     const shake = document.querySelector('#shake');
+    const sparkle = document.querySelector('#sparkle');
     var fizz = 0;
 
     function openCan() {
       console.log("openCan");
       fizz = 0;
+
+      foam.innerHTML = `<img class="fade-in-out" src="./images/smashkirby.webp" />`;
     }
 
-    function generateFoam() {
+    function generateSparkleAnimation() {
+      const particles = 1;
+      const max = 100;
 
+      const boxShadow = [...Array(particles).keys()]
+        .map(i => {
+          const x = (Math.random() - 0.5) * max;
+          const y = (Math.random() - 0.5) * max;
+          const color = "#FFF36D";
+          return `${x}px ${y}px ${color}`;
+        })
+        .join(",");
+
+      return `
+        .sparkle {
+          background-size: 0.5vmin 0.5vmin;
+          background-repeat: no-repeat;
+        }
+
+        @keyframes sparkle {
+          0% { 
+            width: 0.5vmin;
+            opacity: 0;
+          }
+          50% { 
+            width: 0.5vmin;
+            opacity: 1;
+          }
+          100% { 
+            width: 30vmin; 
+            opacity: 0; 
+          }
+        }
+      `
     }
 
     // https://stackoverflow.com/a/36964181
@@ -213,6 +266,8 @@
       }
       `;
     }
+
+    sparkle.innerHTML = generateSparkleAnimation();
 
     tab.addEventListener("click", event => {
       openCan();
