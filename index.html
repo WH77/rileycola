@@ -2,6 +2,9 @@
 <html>
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -55,6 +58,8 @@
       border-left: 1vw solid #E6EDf5;
     }
 
+    
+
     .logo {
       color: #ffffff;
       text-align: center;
@@ -63,7 +68,7 @@
       left: 50%;
       width: 100%;
       transform: translate(-50%, -50%);
-      font-family: 'Georgia' serif;
+      font-family: 'DM Serif Display', 'Georgia', serif;
       font-size: 8vh;
     }
 
@@ -104,10 +109,7 @@
     </div>
   </div>
 
-  <!-- https://stackoverflow.com/a/36964181 -->
-  <style id="shake">
-
-  </style>
+  <style id="shake"></style>
   <script>
     console.log("hi riley");
     const can = document.querySelector('.can');
@@ -120,8 +122,9 @@
       fizz = 0;
     }
 
+    // https://stackoverflow.com/a/36964181
     // 0 to 10
-    function generateShake(intensity) {
+    function applyShake(intensity) {
       if (intensity <= 0) {
         shake.innerHTML = "";
         return;
@@ -129,6 +132,10 @@
 
       var pxIntensity = intensity / 10;
       var rotateIntensity = intensity / 10;
+
+      if (intensity < 5) {
+        pxIntensity = 0;
+      }
 
       shake.innerHTML = `
         @keyframes shake {
@@ -196,15 +203,15 @@
 
     setInterval(() => {
       if (fizz < 100) {
-        generateShake(0);
+        applyShake(0);
       } else if (fizz >= 20000) {
         openCan();
       } else {
         intensity = Math.min(fizz / 200, 20);
-        generateShake(intensity)
+        applyShake(intensity)
       }
 
-      fizz -= 20;
+      fizz -= 25;
     }, 100);
   </script>
 </body>
