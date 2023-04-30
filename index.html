@@ -17,6 +17,7 @@
       width: 100vw;
       height: 100vh;
       position: relative;
+      overflow: hidden;
     }
 
     .container {
@@ -58,8 +59,8 @@
       border-top-right-radius: 5vw 2vw;
       border-bottom-right-radius: 5vw 2vw;
 
-      border-right: 1vw solid #E6EDf5;
-      border-left: 1vw solid #E6EDf5;
+      border-right: 1vh solid #E6EDf5;
+      border-left: 1vh solid #E6EDf5;
     }
 
     .logo {
@@ -84,6 +85,7 @@
       transform-origin: 0% 0%;
       background-color: #E6EDf5;
       border-radius: 1vh;
+      z-index: -1;
     }
 
     .tab:hover {
@@ -306,6 +308,38 @@
     addEventListener("mousemove", (event) => {
       fizz += Math.abs(event.movementX);
       fizz += Math.abs(event.movementY);
+    });
+
+    const touches = {};
+    function handleTouchChange(touch) {
+      if (touches[touch.identifier] === undefined) {
+          fizz += touch.force * 150;
+          touches[touch.identifier] = touch;
+        } else {
+          const old = touches[touch.identifier];
+          const dx = Math.abs(old.screenX - touch.screenX);
+          const dy = Math.abs(old.screenY - touch.screenY);
+          fizz += dx;
+          fizz += dy;
+          
+          touches[touch.identifier] = touch;
+        }
+    }
+    addEventListener("touchmove", (event) => {
+      for (let touch of event.changedTouches) {
+        handleTouchChange(touch);
+      }
+    });
+    addEventListener("touchstart", (event) => {
+      for (let touch of event.changedTouches) {
+        touches[touch.identifier] = touch;
+      }
+    })
+    addEventListener("touchend", (event) => {
+      for (let touch of event.changedTouches) {
+        handleTouchChange(touch);
+        touches[touch.identifier] = undefined;
+      }
     });
 
     addEventListener("devicemotion", (event) => {
