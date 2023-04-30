@@ -73,7 +73,26 @@
     <div class="logo">
       Riley Cola
     </div>
+    <div class="tab"></div>
   </div>
+
+  <script>
+    console.log("hi riley");
+    const can = document.querySelector('.can');
+
+    var fizz = 0;
+    
+    addEventListener("mousemove", (event) => {
+      fizz += Math.abs(event.movementX);
+      fizz += Math.abs(event.movementY);
+    });
+
+    addEventListener("devicemotion", (event) => {
+      fizz += Math.abs(event.acceleration.x);
+      fizz += Math.abs(event.acceleration.y);
+      fizz += Math.abs(event.acceleration.z);
+    });
+  </script>
 </body>
 
 </html>
