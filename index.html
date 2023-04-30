@@ -165,6 +165,7 @@
     const audio = document.querySelector('audio');
     var fizz = 0;
 
+    const images = ["./images/smashkirby.webp", "./images/solairesun.webp", "./images/chickenkirby.png", "./images/ikeaether.png", "./images/musclecat.png"];
     function openCan() {
       console.log("openCan");
       fizz = 0;
@@ -173,9 +174,11 @@
       audio.currentTime = 0;
       audio.play();
 
+      const image = images[Math.floor(Math.random() * images.length)]
+
       foam.innerHTML = `
       <div class="sparkle"></div>
-      <img class="fade-in-out" src="./images/smashkirby.webp" />
+      <img class="fade-in-out" src="${image}" />
 
       `;
     }
@@ -189,7 +192,7 @@
       const particles = 120;
       const gradients = [...Array(particles).keys()]
         .map(i => {
-          const radians = i/particles * 8 * Math.PI;
+          const radians = i / particles * 8 * Math.PI;
           const radius = 50;
 
           var x = (Math.cos(radians) + 1) * (radius) + jitter();
@@ -342,17 +345,17 @@
     const touches = {};
     function handleTouchChange(touch) {
       if (touches[touch.identifier] === undefined) {
-          fizz += touch.force * 150;
-          touches[touch.identifier] = touch;
-        } else {
-          const old = touches[touch.identifier];
-          const dx = Math.abs(old.screenX - touch.screenX);
-          const dy = Math.abs(old.screenY - touch.screenY);
-          fizz += dx;
-          fizz += dy;
-          
-          touches[touch.identifier] = touch;
-        }
+        fizz += touch.force * 150;
+        touches[touch.identifier] = touch;
+      } else {
+        const old = touches[touch.identifier];
+        const dx = Math.abs(old.screenX - touch.screenX);
+        const dy = Math.abs(old.screenY - touch.screenY);
+        fizz += dx;
+        fizz += dy;
+
+        touches[touch.identifier] = touch;
+      }
     }
     addEventListener("touchmove", (event) => {
       for (let touch of event.changedTouches) {
