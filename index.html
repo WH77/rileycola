@@ -260,7 +260,7 @@
 
       if (intensity > 2) {
         audio.volume = intensity / 20;
-        audio.currentTime = 0;
+        audio.currentTime = Math.random() * 2;
         audio.play();
       }
     }
