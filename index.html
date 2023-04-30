@@ -235,8 +235,15 @@
       `
     }
 
-    // https://stackoverflow.com/a/36964181
     // 0 to 10
+    function applyShake(intensity) {
+      generateShakeAnimation(intensity);
+
+      // 100ms at 10 intensity
+      navigator.vibrate(intensity * 10);
+    }
+
+    // https://stackoverflow.com/a/36964181
     function generateShakeAnimation(intensity) {
       if (intensity <= 0) {
         shake.innerHTML = "";
@@ -343,20 +350,20 @@
     });
 
     addEventListener("devicemotion", (event) => {
-      fizz += Math.abs(event.acceleration.x);
-      fizz += Math.abs(event.acceleration.y);
-      fizz += Math.abs(event.acceleration.z);
+      fizz += Math.abs(event.acceleration.x) * 1.25;
+      fizz += Math.abs(event.acceleration.y) * 1.25;
+      fizz += Math.abs(event.acceleration.z) * 1.25;
     });
 
     setInterval(() => {
       intensity = Math.min(fizz / 200, 20);
 
       if (fizz < 100) {
-        generateShakeAnimation(0);
+        applyShake(0);
       } else if (fizz >= 20000) {
         openCan();
       } else {
-        generateShakeAnimation(intensity)
+        applyShake(intensity)
       }
 
       fizz -= 50;
