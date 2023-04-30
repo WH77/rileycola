@@ -102,7 +102,7 @@
       position: absolute;
       width: 50%;
       height: 75%;
-      transform: translate(50%, -150%);
+      transform: translate(50%, -140%);
     }
 
     .foam>img {
@@ -122,7 +122,7 @@
         opacity: 0;
       }
 
-      40% {
+      70% {
         opacity: 1;
       }
 
@@ -136,8 +136,6 @@
 <body>
   <div class="container">
     <div class="foam">
-
-      <div class="sparkle"></div>
     </div>
 
     <div class="wrapper rotation">
@@ -167,7 +165,11 @@
       console.log("openCan");
       fizz = 0;
 
-      foam.innerHTML = `<img class="fade-in-out" src="./images/smashkirby.webp" />`;
+      foam.innerHTML = `
+      <div class="sparkle"></div>
+      <img class="fade-in-out" src="./images/smashkirby.webp" />
+
+      `;
     }
 
     function jitter(max = 12) {
@@ -175,16 +177,28 @@
     }
 
     function generateSparkleAnimation() {
-      const particles = 180;
-      
+      const particles = 360;
 
       const gradients = [...Array(particles).keys()]
         .map(i => {
-          const radians = i/particles * 2 * Math.PI;
-          const x = (Math.cos(radians) + 1) * (50) + jitter();
-          const y = (Math.sin(radians) + 1) * (50) + jitter();
+          const radians = i/particles * 8 * Math.PI;
+          const radius = 50;
+
+          var x = (Math.cos(radians) + 1) * (radius) + jitter();
+          var y = (Math.sin(radians) + 1) * (radius) + jitter();
+          if (radians > Math.PI * 6) {
+            x += (radius - x) / 4;
+            y += (radius - y) / 4;
+          } else if (radians > Math.PI * 4) {
+            x += (radius - x) / 2 + jitter();
+            y += (radius - y) / 2 + jitter();
+          } else if (radians > Math.PI * 2) {
+            x += (radius - x) + jitter(36);
+            y += (radius - y) + jitter(36);
+          }
+
           const color = "#3c3024";
-          return `radial-gradient(circle at ${x}% ${y}%, ${color} 2px, #0000 0) `;
+          return `radial-gradient(circle at ${x}% ${y}%, ${color} 4px, #0000 0) `;
         })
         .join(",");
 
@@ -195,24 +209,24 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 0.5vmin;
+          width: 0.5vh;
           aspect-ratio: 1;
+          animation: sparkle ease-out 6s forwards;
           background: ${gradients};
 
-          animation: sparkle ease-out 2s infinite;
         }
 
         @keyframes sparkle {
           0% { 
-            width: 0.5vmin;
+            width: 0.5vh;
             opacity: 0;
           }
           60% { 
-            width: 100%;
+            width: 35vh;
             opacity: 1;
           }
           100% { 
-            width: 100%; 
+            width: 35vh; 
             opacity: 0; 
           }
         }
