@@ -167,7 +167,6 @@
 
     const images = ["./images/smashkirby.webp", "./images/solairesun.webp", "./images/chickenkirby.png", "./images/ikeaether.png", "./images/musclecat.png"];
     function openCan() {
-      console.log("openCan");
       fizz = 0;
 
       audio.volume = 1;
@@ -332,6 +331,12 @@
     }
 
     sparkle.innerHTML = generateSparkleAnimation();
+
+    addEventListener("click", event => {
+      if (DeviceOrientationEvent.requestPermission) {
+        DeviceOrientationEvent.requestPermission();
+      }
+    });
 
     tab.addEventListener("click", event => {
       openCan();
