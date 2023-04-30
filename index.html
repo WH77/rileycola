@@ -135,7 +135,10 @@
 
 <body>
   <div class="container">
-    <div class="foam"></div>
+    <div class="foam">
+
+      <div class="sparkle"></div>
+    </div>
 
     <div class="wrapper rotation">
       <div class="wrapper shake">
@@ -167,23 +170,36 @@
       foam.innerHTML = `<img class="fade-in-out" src="./images/smashkirby.webp" />`;
     }
 
-    function generateSparkleAnimation() {
-      const particles = 1;
-      const max = 100;
+    function jitter(max = 12) {
+      return (Math.random() - 0.5) * max;
+    }
 
-      const boxShadow = [...Array(particles).keys()]
+    function generateSparkleAnimation() {
+      const particles = 180;
+      
+
+      const gradients = [...Array(particles).keys()]
         .map(i => {
-          const x = (Math.random() - 0.5) * max;
-          const y = (Math.random() - 0.5) * max;
-          const color = "#FFF36D";
-          return `${x}px ${y}px ${color}`;
+          const radians = i/particles * 2 * Math.PI;
+          const x = (Math.cos(radians) + 1) * (50) + jitter();
+          const y = (Math.sin(radians) + 1) * (50) + jitter();
+          const color = "#3c3024";
+          return `radial-gradient(circle at ${x}% ${y}%, ${color} 2px, #0000 0) `;
         })
         .join(",");
 
       return `
         .sparkle {
-          background-size: 0.5vmin 0.5vmin;
-          background-repeat: no-repeat;
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 0.5vmin;
+          aspect-ratio: 1;
+          background: ${gradients};
+
+          animation: sparkle ease-out 2s infinite;
         }
 
         @keyframes sparkle {
@@ -191,12 +207,12 @@
             width: 0.5vmin;
             opacity: 0;
           }
-          50% { 
-            width: 0.5vmin;
+          60% { 
+            width: 100%;
             opacity: 1;
           }
           100% { 
-            width: 30vmin; 
+            width: 100%; 
             opacity: 0; 
           }
         }
